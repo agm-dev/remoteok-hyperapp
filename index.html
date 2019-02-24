@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Remote Jobs</title>
+</head>
+<body>
+
+  <iframe src="https://remoteok.io/api" frameborder="0"></iframe>
+
+  <script type="text/javascript" src="https://unpkg.com/hyperapp@1.2.9/dist/hyperapp.js"></script>
+  <script type="text/javascript" src="assets/js/remoteok.js"></script>
+  <script type="text/javascript" src="assets/js/app.js"></script>
+  <script type="text/javascript">
+
+    const ro = new RemoteOk({
+      baseUrl: 'https://remoteok.io/api',
+      fallbackUrl: 'assets/data/sample.json',
+    });
+
+    (async () => {
+      try {
+        await ro.getData();
+        if (!ro.data.length) await ro.getData(ro.fallbackUrl);
+      } catch (err) {
+        console.error(err);
+      }
+
+      state.client = ro;
+      state.items = ro.data.slice(1);
+      state.search = state.items;
+      state.tags = ro.getTags().sort();
+      app(state, actions, view, document.body);
+    })();
+
+    // TODO: backend server that requests baseUrl and returns response
+    // TODO:
+
+  </script>
+</body>
+</html>
