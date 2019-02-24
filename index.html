@@ -8,7 +8,7 @@
 </head>
 <body>
 
-  <iframe src="https://remoteok.io/api" frameborder="0"></iframe>
+  <div id="app"></div>
 
   <script type="text/javascript" src="https://unpkg.com/hyperapp@1.2.9/dist/hyperapp.js"></script>
   <script type="text/javascript" src="assets/js/remoteok.js"></script>
@@ -32,11 +32,11 @@
       state.items = ro.data.slice(1);
       state.search = state.items;
       state.tags = ro.getTags().sort();
-      app(state, actions, view, document.body);
+      app(state, actions, view, document.querySelector('#app'));
     })();
 
-    // TODO: backend server that requests baseUrl and returns response
-    // TODO:
+    // TODO: backend server that requests baseUrl and returns response to get real and fresh data
+    // TODO: styles
 
   </script>
 </body>

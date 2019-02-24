@@ -21,7 +21,7 @@ const actions = {
 
 const title = state => h('h1', { className: 'title' }, `${state.title} (${state.items.length})`);
 
-const tagElement = tag => (state, actions) => h('button', { className: 'tag', onclick: () => actions.setFilter(tag) }, tag);
+const tagElement = tag => (state, actions) => h('button', { className: state.searchBy.includes(tag) ? 'tag tag--selected' : 'tag', onclick: () => actions.setFilter(tag) }, tag);
 const itemTagList = item => (state, actions) => h('li', { className: 'list__item' }, tagElement(item));
 const tagsList = (state, actions) => h('ul', { className: 'list' }, state.tags.map(itemTagList));
 const tagsContainer = (state, actions) => h('div', { className: 'side-menu' }, tagsList);
