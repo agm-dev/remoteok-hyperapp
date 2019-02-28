@@ -13,16 +13,19 @@ const actions = {
   setFilter: tag => (state, actions) => {
     const searchBy = state.searchBy.includes(tag) ? state.searchBy.filter(item => item !== tag) : [...state.searchBy, tag];
     const search = state.client ? state.client.getJobsByTags(searchBy) : [];
+    if (!searchBy.length) {
+      return { searchBy, search: state.items };
+    }
     return { searchBy, search };
   }
 }
 
 // components:
 
-const title = state => h('h1', { className: 'title' }, `${state.title} (${state.items.length})`);
+const title = state => h('h1', { className: 'title' }, `${state.title} (${state.search.length})`);
 
 const tagElement = tag => (state, actions) => h('button', { className: state.searchBy.includes(tag) ? 'tag tag--selected' : 'tag', onclick: () => actions.setFilter(tag) }, tag);
-const itemTagList = item => (state, actions) => h('li', { className: 'list__item' }, tagElement(item));
+const itemTagList = (item, index) => (state, actions) => h('li', { className: index === 0 ? 'list__item list__item--first' : 'list__item' }, tagElement(item));
 const tagsList = (state, actions) => h('ul', { className: 'list' }, state.tags.map(itemTagList));
 const tagsContainer = (state, actions) => h('div', { className: 'side-menu' }, tagsList);
 
@@ -43,6 +46,10 @@ const jobContent = job => h('div', { className: 'job__content' }, [
   jobLine(
     jobLabel('Link:'),
     jobData(h('a', { className: 'job__link', href: job.url, target: '_blank' }, job.url)),
+  ),
+  jobLine(
+    jobLabel('Description:'),
+    jobData(h('p', { className: 'job__description' }, job.description)),
   ),
 ]);
 const jobElement = job => (state, actions) => h('div', { className: 'job', 'data-jobId': job.id }, [
