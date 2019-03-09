@@ -18,7 +18,7 @@
   <script type="text/javascript">
 
     const ro = new RemoteOk({
-      baseUrl: 'https://remoteok.io/api',
+      baseUrl: 'https://brainl.es/remoteok/v1/remotejobs',
       fallbackUrl: 'assets/data/sample.json',
     });
 
@@ -36,9 +36,6 @@
       state.tags = ro.getTags().sort();
       app(state, actions, view, document.querySelector('#app'));
     })();
-
-    // TODO: backend server that requests baseUrl and returns response to get real and fresh data
-    // TODO: styles
 
   </script>
 </body>
